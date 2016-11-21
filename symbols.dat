@@ -1,79 +1,80 @@
-not equal * ≠
-approximately equal * ≈
-strict inequality * >
-strict inequality * <
-greater-equal * ≥
-less-equal * ≤
-plus-minus * ±
-times * ×
-division * ÷
-square root * √
-percent * %
-per-mille * ‰
-angle * ∠
-right angle * ∟
-degree * °
-prime * ′
-double prime * ″
-perpendicular * ⊥
-parallel * |
-congruent * ≅
-similarity * ~
-triangle * Δ
-equal by definition * ≜
-proportional * ∝
-much less than * ≪
-much greater than * ≫
-summation * ∑
-Euler's number * e
-Euler-Mascheroni * γ
-golden ratio * φ
-dot	product * ·
-tensor product * ⊗
-population mean * μ
-intersection * ∩
-union * ∪
-subset * ⊆
-proper subset * ⊂
-not subset * ⊄
-superset * ⊇
-proper superset * ⊃
-not superset * ⊅
-implies * ⇒
-equivalent - if and only if (iff) * ⇔
-equivalent - if and only if (iff) * ↔
-for all * ∀
-there exists * ∃
-there does not exists * ∄
-therefore * ∴
-because / since * ∵
-integral * ∫
-closed contour / line integral * ∮
-closed surface integral * ∯
-closed volume integral * ∰
-delta function * δ
-lemniscate infinity symbol * ∞
+
 Alpha * α
 Beta * β
-Gamma * γ
+Chi * χ
 Delta * δ
 Epsilon * ε
-Zeta * ζ
 Eta * η
-Theta * θ
+Euler's number * e
+Euler-Mascheroni * γ
+Gamma * γ
 Iota * ι
 Kappa * κ
 Lambda * λ
 Mu * μ
 Nu * ν
-Xi * ξ
+Omega * ω
 Omicron * ο
+Phi * φ
 Pi * π
+Psi * ψ
 Rho * ρ
 Sigma * σ
 Tau * τ
+Theta * θ
 Upsilon * υ
-Phi * φ
-Chi * χ
-Psi * ψ
-Omega * ω
+Xi * ξ
+Zeta * ζ
+angle * ∠
+approximately equal * ≈
+because / since * ∵
+closed contour / line integral * ∮
+closed surface integral * ∯
+closed volume integral * ∰
+congruent * ≅
+degree * °
+delta function * δ
+division * ÷
+dot	product * ·
+double prime * ″
+equal by definition * ≜
+equivalent - if and only if (iff) * ↔
+equivalent - if and only if (iff) * ⇔
+for all * ∀
+golden ratio * φ
+greater-equal * ≥
+implies * ⇒
+integral * ∫
+intersection * ∩
+lemniscate infinity symbol * ∞
+less-equal * ≤
+much greater than * ≫
+much less than * ≪
+not subset * ⊄
+not superset * ⊅
+parallel * |
+per-mille * ‰
+percent * %
+perpendicular * ⊥
+plus-minus * ±
+population mean * μ
+prime * ′
+proper subset * ⊂
+proper superset * ⊃
+proportional * ∝
+right angle * ∟
+similarity * ~
+square root * √
+strict inequality * <
+strict inequality * >
+subset * ⊆
+summation * ∑
+superset * ⊇
+tensor product * ⊗
+there does not exists * ∄
+there exists * ∃
+therefore * ∴
+thin*fcknot equal * ≠
+times * ×
+triangle * Δ
+union * ∪
