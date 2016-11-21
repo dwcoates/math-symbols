@@ -5,7 +5,7 @@
 ;;;;;;;;; READ/WRITE ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar dwc--ms-data-file "~/workspace/emacs/symbols.dat")
+(defvar dwc--ms-data-file "~/workspace/emacs/math-symbols/symbols.dat")
 (defvar dwc--data-delimiter "*")
 (defvar dwc--ms-symbols-alist nil)
 
@@ -23,13 +23,13 @@
                  (let ((raw-list (split-string
                                   raw-str dwc--data-delimiter t " ")))
                    (pp raw-list)
-                   `(,(car raw-list) . ,(car (cdr raw-list)))))
-               raw-data-list
-               )))
+                   `(,(concat (cadr raw-list) " -- " (car raw-list)) .
+                     ,(cadr raw-list))))
+               raw-data-list)
+               ))
       )))
 
 (dwc-ms-read-data)
-
 (defun dwc-ms-write-data (data-alist)
   "Save list of description/symbol associations to data file"
   (save-excursion
@@ -68,5 +68,7 @@
   )
 
 (defun dwc--symbols-defun ()
-  dwc--ms-symbols-alist
-  )
+   dwc--ms-symbols-alist
+   )
+
+(dwc--symbols-defun)
