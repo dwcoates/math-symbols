@@ -1,11 +1,14 @@
 
 ;;; Code:
 
+(require 'helm)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;; READ/WRITE ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar dwc--ms-data-file "~/workspace/emacs/math-symbols/symbols.dat")
+(defvar dwc--ms-data-file (let ((default-directory (file-name-directory load-file-name)))
+                            (file-truename "symbols.dat")))
 (defvar dwc--data-delimiter "*")
 (defvar dwc--ms-symbols-alist nil)
 
@@ -22,7 +25,7 @@
                  ;; turn the raw string into a data association
                  (let ((raw-list (split-string
                                   raw-str dwc--data-delimiter t " ")))
-                   `(,(concat (cadr raw-list) " -- " (car raw-list)) .
+                   `(,(concat (cadr raw-list) "  " (car raw-list)) .
                      ,(cadr raw-list))))
                raw-data-list)
                ))
@@ -70,3 +73,5 @@
 (defun dwc--symbols-defun ()
    dwc--ms-symbols-alist
    )
+
+(provide 'math-symbols)
