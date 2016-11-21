@@ -22,7 +22,6 @@
                  ;; turn the raw string into a data association
                  (let ((raw-list (split-string
                                   raw-str dwc--data-delimiter t " ")))
-                   (pp raw-list)
                    `(,(concat (cadr raw-list) " -- " (car raw-list)) .
                      ,(cadr raw-list))))
                raw-data-list)
@@ -30,6 +29,7 @@
       )))
 
 (dwc-ms-read-data)
+
 (defun dwc-ms-write-data (data-alist)
   "Save list of description/symbol associations to data file"
   (save-excursion
@@ -70,5 +70,3 @@
 (defun dwc--symbols-defun ()
    dwc--ms-symbols-alist
    )
-
-(dwc--symbols-defun)
