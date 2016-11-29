@@ -1,0 +1,4 @@
+* math-symbols
+Quick and dirty emacs utility for inserting Unicode math symbols via helm
+
+Probably better off using char-menu for frequently used symbols, as it's faster at selection, but much slower for browsing.
