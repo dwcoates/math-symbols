@@ -1,55 +1,41 @@
-
 ;;; Code:
 
 (require 'helm)
+(require 'cl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;; READ/WRITE ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar dwc--ms-data-file (let ((default-directory (file-name-directory load-file-name)))
-                            (file-truename "symbols.dat")))
-(defvar dwc--data-delimiter "*")
+(defvar dwc--ms-data-dir (file-name-directory load-file-name))
 (defvar dwc--ms-symbols-alist nil)
 
-(defun dwc-ms-read-data ()
-  "Read ms data from file into a description/symbol alist"
+(defun dwc--ms-get-data (file-name)
+  "Read ms data from file into a description/symbol alist and return it"
   (save-excursion
     (with-temp-buffer
-      (insert-file-contents dwc--ms-data-file)
+      (insert-file-contents (file-truename file-name))
       (let ((raw-data-list (split-string (buffer-string) "\n" t)))
-        (setq dwc--ms-symbols-alist
-              (mapcar
-               ;; create assosiation list from raw-data-list
-               (lambda (raw-str)
-                 ;; turn the raw string into a data association
-                 (let ((raw-list (split-string
-                                  raw-str dwc--data-delimiter t " ")))
-                   `(,(concat (cadr raw-list) "  " (car raw-list)) .
-                     ,(cadr raw-list))))
-               raw-data-list)
-               ))
-      )))
+        (mapcar
+         ;; create assosiation list from raw-data-list (list of lines from .dat file)
+         (lambda (raw-str)
+           `(,(concat (substring raw-str 0 1) "\t" (substring raw-str 2))
+             ,(substring raw-str 0 1)))
+         raw-data-list)
+        ))
+    ))
 
-(dwc-ms-read-data)
+(defun ms--read-data ()
+  (setq dwc--ms-symbols-alist
+        (cl-sort (apply 'append (mapcar
+                                 'dwc--ms-get-data
+                                 (remove-if-not (lambda (string) (search ".dat" string))
+                                                (directory-files dwc--ms-data-dir))))
+                 (lambda (a1 a2)
+                   (string-lessp (car a1) (car a2)))
+                 )))
 
-(defun dwc-ms-write-data (data-alist)
-  "Save list of description/symbol associations to data file"
-  (save-excursion
-     (with-temp-file dwc--ms-data-file
-      (insert-file-contents dwc--ms-data-file)
-      (insert "\n")
-      (insert
-       (mapconcat (lambda (desc-symbol)
-                    (concat (car desc-symbol)
-                            dwc--data-delimiter
-                            (cdr desc-symbol)))
-                  data-alist
-                  "\n"
-                  ))
-      (sort-lines nil (point-min) (point-max))
-      (delete-duplicate-lines (point-min) (point-max) nil nil nil nil)
-      )))
+(ms--read-data)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;; HELM DISPLAY;;;;;;;;;;;
@@ -67,11 +53,45 @@
     ))
 
 (defun dwc--insert-symbol (symbol)
-  (insert symbol)
+  (insert (car symbol))
   )
 
 (defun dwc--symbols-defun ()
    dwc--ms-symbols-alist
    )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;; KEY COMMAND ;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define-key global-map (kbd "C-c o s") 'dwc-helm-ms-get-symbols)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;; MISC UTILS ;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun proper-words (string)
+  "Capitalize first letter of each word in string. Words delimited by whitespace"
+  (string-join
+   (mapcar (lambda (word)
+             (let ((first-letter (substring word 0 1))
+                   (rest (substring word 1)))
+               (concat (capitalize first-letter) rest)))
+           (split-string string " " t))
+   " ")
+  )
+
+(defun prettify-symbols-datum ()
+  "Make the description for unicode symbol data at point 'proper'"
+  (interactive)
+  (let* ((ugly-line (dwc/get-line))
+         (desc (substring ugly-line 2))
+         (rest (substring ugly-line 0 2)))
+    (beginning-of-line)
+    (kill-line)
+    (insert (concat rest (proper-words desc)))
+    (newline)
+    )
+  )
 
 (provide 'math-symbols)
