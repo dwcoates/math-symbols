@@ -7,14 +7,15 @@
 ;;;;;;;;; READ/WRITE ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar dwc--ms-data-dir (file-name-directory load-file-name))
-(defvar dwc--ms-symbols-alist nil)
+(defvar math-sym-data-dir (file-name-directory load-file-name))
 
-(defun dwc--ms-get-data (file-name)
+(defvar math-sym-alist nil)
+
+(defun math-sym-get-data (file-name)
   "Read ms data from file into a description/symbol alist and return it"
   (save-excursion
     (with-temp-buffer
-      (insert-file-contents (file-truename file-name))
+      (insert-file-contents (concat math-sym-data-dir file-name))
       (let ((raw-data-list (split-string (buffer-string) "\n" t)))
         (mapcar
          ;; create assosiation list from raw-data-list (list of lines from .dat file)
@@ -25,46 +26,48 @@
         ))
     ))
 
-(defun ms--read-data ()
-  (setq dwc--ms-symbols-alist
+(math-sym-get-data "math.dat")
+
+(defun math-sym--read-data ()
+  (setq math-sym-alist
         (cl-sort (apply 'append (mapcar
-                                 'dwc--ms-get-data
+                                 'math-sym-get-data
                                  (remove-if-not (lambda (string) (search ".dat" string))
-                                                (directory-files dwc--ms-data-dir))))
+                                                (directory-files math-sym-data-dir))))
                  (lambda (a1 a2)
                    (string-lessp (car a1) (car a2)))
                  )))
 
-(ms--read-data)
+(math-sym--read-data)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;; HELM DISPLAY;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun dwc-helm-ms-get-symbols ()
+(defun helm-math-sym-get-symbols ()
   (interactive)
-  (helm :sources '(dwc--ms-helm-sources))
+  (helm :sources '(math-sym-helm-sources))
   )
 
-(defvar dwc--ms-helm-sources
+(defvar math-sym-helm-sources
   '((name . "Unicode symbols list")
-    (candidates . dwc--symbols-defun)
-    (action . (("Insert symbol" . dwc--insert-symbol)))
+    (candidates . symbols-defun)
+    (action . (("Insert symbol" . insert-symbol)))
     ))
 
-(defun dwc--insert-symbol (symbol)
+(defun insert-symbol (symbol)
   (insert (car symbol))
   )
 
-(defun dwc--symbols-defun ()
-   dwc--ms-symbols-alist
+(defun symbols-defun ()
+   math-sym-alist
    )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;; KEY COMMAND ;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map (kbd "C-c o s") 'dwc-helm-ms-get-symbols)
+(define-key global-map (kbd "C-c o s") 'helm-math-sym-get-symbols)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;; MISC UTILS ;;;;;;;;;;;;;;
