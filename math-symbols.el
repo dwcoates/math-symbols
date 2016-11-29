@@ -18,15 +18,13 @@
       (insert-file-contents (concat math-sym-data-dir file-name))
       (let ((raw-data-list (split-string (buffer-string) "\n" t)))
         (mapcar
-         ;; create assosiation list from raw-data-list (list of lines from .dat file)
+         ;; create an assosiation from raw data (a line from a .dat file)
          (lambda (raw-str)
            `(,(concat (substring raw-str 0 1) "\t" (substring raw-str 2))
              ,(substring raw-str 0 1)))
          raw-data-list)
         ))
     ))
-
-(math-sym-get-data "math.dat")
 
 (defun math-sym--read-data ()
   (setq math-sym-alist
