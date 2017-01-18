@@ -1,3 +1,30 @@
+;;; package --- Summary:
+ ;; Search for non-ascii symbols using helm
+
+;; Copyright (C) 2017  Dodge Coates
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+;;; Author: Dodge W. Coates
+;;; URL: https://github.com/dwcoates/math-symbols
+
+;;; Commentary:
+;;
+;; Use `math-symbols-get-symbols' to spawn an helm menu with which to
+;; search for unicode Symbols.  Symbols are pulled from the .dat
+;; files.
+
 ;;; Code:
 
 (require 'helm)
@@ -28,10 +55,10 @@
 
 (defun math-sym--read-data ()
   (setq math-sym-alist
-        (cl-sort (apply 'append (mapcar
-                                 'math-sym-get-data
-                                 (remove-if-not (lambda (string) (search ".dat" string))
-                                                (directory-files math-sym-data-dir))))
+        (cl-sort (apply 'append
+                        (mapcar 'math-sym-get-data
+                                (remove-if-not (lambda (string) (search ".dat" string))
+                                               (directory-files math-sym-data-dir))))
                  (lambda (a1 a2)
                    (string-lessp (car a1) (car a2)))
                  )))
@@ -42,7 +69,7 @@
 ;;;;;;;;;;; HELM DISPLAY;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun helm-math-sym-get-symbols ()
+(defun math-symbols-get-symbols ()
   (interactive)
   (helm :sources '(math-sym-helm-sources))
   )
@@ -65,7 +92,7 @@
 ;;;;;;;;;; KEY COMMAND ;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define-key global-map (kbd "C-c o s") 'helm-math-sym-get-symbols)
+(define-key global-map (kbd "C-c o s") 'math-symbols-get-symbols)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;; MISC UTILS ;;;;;;;;;;;;;;
