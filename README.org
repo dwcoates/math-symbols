@@ -1,4 +1,26 @@
 * math-symbols
-Quick and dirty emacs utility for inserting Unicode math symbols via helm
+Quick and dirty emacs utility for inserting Unicode math symbols with helm
 
-Probably better off using char-menu for frequently used symbols, as it's faster at selection, but much slower for browsing.
+Probably better off using char-menu for frequently used symbols, as
+it's faster at selection, but much slower for browsing (especially
+considering that with char-menu, you have to bother defining
+symbol/key associations to make it work)
+
+* Usage
+With math-symbols.el and .dat files somewhere in your Emacs path:
+
+#+begin_src emacs-lisp :exports both
+(require 'math-symbols)
+#+end_src
+
+
+By default, ~C-c o s~ runs ~math-symbols-get-symbols~, which will pop up a
+helm menu with which you can search for a given symbol. Selecting an entry
+inserts the character at point. By default, math-symbols has 
+
+(+ 50 80 20)
+
+
+Ⅰⅰ
+
+
