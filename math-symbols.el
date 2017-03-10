@@ -34,7 +34,7 @@
 ;;;;;;;;; READ/WRITE ;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar math-sym-data-dir (file-name-directory load-file-name))
+(defvar math-sym-data-dir (file-name-directory (or load-file-name buffer-file-name)))
 
 (defvar math-sym-alist nil)
 
@@ -71,8 +71,7 @@
 
 (defun math-symbols-get-symbols ()
   (interactive)
-  (helm :sources '(math-sym-helm-sources))
-  )
+  (helm :sources '(math-sym-helm-sources)))
 
 (defvar math-sym-helm-sources
   '((name . "Unicode symbols list")
@@ -81,12 +80,10 @@
     ))
 
 (defun insert-symbol (symbol)
-  (insert (car symbol))
-  )
+  (insert (car symbol)))
 
 (defun symbols-defun ()
-   math-sym-alist
-   )
+   math-sym-alist)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;; KEY COMMAND ;;;;;;;;;;;
@@ -106,8 +103,7 @@
                    (rest (substring word 1)))
                (concat (capitalize first-letter) rest)))
            (split-string string " " t))
-   " ")
-  )
+   " "))
 
 (defun prettify-symbols-datum ()
   "Make the description for unicode symbol data at point 'proper'"
@@ -119,7 +115,8 @@
     (kill-line)
     (insert (concat rest (proper-words desc)))
     (newline)
-    )
-  )
+    ))
 
 (provide 'math-symbols)
+
+;;; math-symbols ends here
